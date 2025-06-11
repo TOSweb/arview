@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Model Viewer with AR</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body { margin: 0; background: #111; color: white; font-family: sans-serif; }
+    model-viewer { width: 100vw; height: 90vh; }
+    .controls { text-align: center; padding: 1rem; }
+    input[type="file"] { color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Model Viewer Component -->
+  <model-viewer id="viewer"
+    ar
+    ar-modes="scene-viewer webxr quick-look"
+    environment-image="neutral"
+    auto-rotate
+    camera-controls
+    shadow-intensity="1"
+    alt="3D model viewer">
+  </model-viewer>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input type="file" id="fileInput" accept=".glb,.gltf,.usdz" />
+    <button onclick="enterAR()">Place in AR</button>
+  </div>
+
+  <script>
+    const viewer = document.getElementById('viewer');
+    const input = document.getElementById('fileInput');
+
+    input.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      viewer.src = url;
+    });
+
+    function enterAR() {
+      viewer.activateAR();
+    }
+  </script>
+
+</body>
+</html>
